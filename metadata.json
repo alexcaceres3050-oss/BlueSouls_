@@ -1,0 +1,6 @@
+{
+  "name": "BlueSouls — Ropa Urbana Pista & Calle",
+  "description": "Catálogo oficial de BlueSouls: ropa urbana inspirada en el patinaje y el hockey sobre hielo en Buenos Aires.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
