@@ -11,6 +11,7 @@ export interface Product {
   sizes: string[];
   silhouette: GarmentSilhouette;
   photoHint: string;
+  imageUrl?: string;
   note?: string;
 }
 
@@ -34,6 +35,7 @@ export const PRODUCTS: Product[] = [
     sizes: ['S', 'M', 'L', 'XL'],
     silhouette: 'hoodie',
     photoHint: 'Foto producto · Buzo azul profundo frente',
+    imageUrl: '/assets/aistudio/descarga__1__1012c52d.jpeg',
     note: 'Edición inicial',
   },
   {
@@ -45,6 +47,7 @@ export const PRODUCTS: Product[] = [
     sizes: ['S', 'M', 'L', 'XL'],
     silhouette: 'jersey',
     photoHint: 'Foto producto · Jersey inspirado en hockey',
+    imageUrl: '/assets/aistudio/descarga_e834cd2b.jpeg',
   },
   {
     id: 'campera-ice-line',
@@ -55,6 +58,7 @@ export const PRODUCTS: Product[] = [
     sizes: ['S', 'M', 'L', 'XL'],
     silhouette: 'jacket',
     photoHint: 'Foto producto · Campera pista y calle',
+    imageUrl: '/assets/aistudio/Vintage_Pittsburgh_Penguins_Hockey_Jersey_a1843de3.jpeg',
     note: 'Nuevo ingreso',
   },
   {
@@ -66,6 +70,7 @@ export const PRODUCTS: Product[] = [
     sizes: ['S', 'M', 'L', 'XL'],
     silhouette: 'tee',
     photoHint: 'Foto producto · Remera blanca hielo',
+    imageUrl: '/assets/aistudio/descarga__4__d25a03e1.jpeg',
   },
   {
     id: 'cargo-blue-line',
@@ -76,6 +81,7 @@ export const PRODUCTS: Product[] = [
     sizes: ['38', '40', '42', '44'],
     silhouette: 'cargo',
     photoHint: 'Foto producto · Pantalón cargo negro',
+    imageUrl: '/assets/aistudio/descarga__3__99bb66dc.jpeg',
   },
   {
     id: 'gorro-frost',
@@ -86,6 +92,7 @@ export const PRODUCTS: Product[] = [
     sizes: ['Único'],
     silhouette: 'beanie',
     photoHint: 'Foto producto · Gorro tejido azul eléctrico',
+    imageUrl: '/assets/aistudio/_47_Brand_NHL_New_York_Rangers_Hitch_Hat_in_Blue__Men_s_at_Urban_Outfitters_0e8017bd.jpeg',
   },
 ];
 

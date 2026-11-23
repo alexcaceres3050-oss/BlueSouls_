@@ -39,6 +39,7 @@ export default function App() {
   const [activeCategory, setActiveCategory] = useState<Category>('Todo');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
 
   const filteredProducts = useMemo(() => {
     if (activeCategory === 'Todo') return PRODUCTS;
@@ -164,8 +165,8 @@ export default function App() {
           id="inicio"
           className="bg-[#0B0B0F] text-[#F5F8FF] py-16 sm:py-20 lg:py-24 border-b border-[#F5F8FF]/10"
         >
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-stretch">
-            <div className="lg:col-span-6 flex flex-col justify-center">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-2xl flex flex-col justify-center">
               <p className="text-xs sm:text-sm font-medium tracking-wide text-[#F5F8FF]/65">
                 Buenos Aires · Pista y calle
               </p>
@@ -201,16 +202,6 @@ export default function App() {
                   <span>Consultar por WhatsApp</span>
                 </a>
               </div>
-            </div>
-
-            <div className="lg:col-span-6 flex">
-              <PhotoPlaceholder
-                silhouette="campaign"
-                theme="dark"
-                label="Foto principal de campaña · Pista & Calle"
-                ratioLabel="4:3"
-                className="w-full min-h-[300px] sm:min-h-[360px] lg:min-h-[420px] rounded-xl"
-              />
             </div>
           </div>
         </section>
@@ -268,14 +259,26 @@ export default function App() {
                   key={product.id}
                   className="group flex flex-col bg-[#F5F8FF] rounded-xl border border-[#0A1F44]/12 overflow-hidden transition-transform duration-200 hover:-translate-y-0.5"
                 >
-                  <div className="aspect-[4/5] w-full overflow-hidden">
-                    <PhotoPlaceholder
-                      silhouette={product.silhouette}
-                      theme="light"
-                      label={product.photoHint}
-                      ratioLabel="4:5"
-                      className="w-full h-full border-0 transition-transform duration-200 group-hover:scale-[1.015]"
-                    />
+                  <div className="aspect-[4/5] w-full overflow-hidden bg-[#E9EFFC]">
+                    {product.imageUrl && !failedImages[product.id] ? (
+                      <img
+                        src={product.imageUrl}
+                        alt={product.name}
+                        referrerPolicy="no-referrer"
+                        onError={() =>
+                          setFailedImages((prev) => ({ ...prev, [product.id]: true }))
+                        }
+                        className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-[1.015]"
+                      />
+                    ) : (
+                      <PhotoPlaceholder
+                        silhouette={product.silhouette}
+                        theme="light"
+                        label={product.photoHint}
+                        ratioLabel="4:5"
+                        className="w-full h-full border-0 transition-transform duration-200 group-hover:scale-[1.015]"
+                      />
+                    )}
                   </div>
 
                   <div className="flex-1 flex flex-col justify-between p-5 gap-4">
@@ -324,13 +327,27 @@ export default function App() {
         >
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-stretch">
             <div className="lg:col-span-5 flex">
-              <PhotoPlaceholder
-                silhouette="community"
-                theme="dark"
-                label="Foto de marca · Comunidad en la pista"
-                ratioLabel="4:3"
-                className="w-full min-h-[280px] lg:h-full rounded-xl bg-[#0B0B0F]/45"
-              />
+              {!failedImages['nosotros'] ? (
+                <div className="w-full min-h-[280px] lg:h-full rounded-xl bg-[#070C24] border border-[#F5F8FF]/15 overflow-hidden flex items-center justify-center p-4">
+                  <img
+                    src="/assets/aistudio/1000001931_fb4ef154.png"
+                    alt="BlueSouls — Del hielo a la calle"
+                    referrerPolicy="no-referrer"
+                    onError={() =>
+                      setFailedImages((prev) => ({ ...prev, nosotros: true }))
+                    }
+                    className="w-full h-full max-h-[420px] object-contain"
+                  />
+                </div>
+              ) : (
+                <PhotoPlaceholder
+                  silhouette="community"
+                  theme="dark"
+                  label="Foto de marca · Comunidad en la pista"
+                  ratioLabel="4:3"
+                  className="w-full min-h-[280px] lg:h-full rounded-xl bg-[#0B0B0F]/45"
+                />
+              )}
             </div>
 
             <div className="lg:col-span-7 flex flex-col justify-center">
@@ -456,6 +473,25 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {/* Botón flotante de WhatsApp */}
+      <a
+        href={GENERAL_WHATSAPP_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Ir a WhatsApp de BlueSouls"
+        title="Consultar por WhatsApp"
+        className="fixed bottom-5 right-5 z-40 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#1E5BFF] hover:bg-[#1749D1] text-[#F5F8FF] border border-[#F5F8FF]/20 shadow-lg shadow-[#0B0B0F]/35 flex items-center justify-center transition-transform duration-200 hover:-translate-y-0.5"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          className="w-6 h-6 sm:w-7 sm:h-7"
+          aria-hidden="true"
+        >
+          <path d="M12.031 2c-5.516 0-9.969 4.453-9.969 9.969 0 1.766.469 3.484 1.344 5L2 22l5.156-1.344c1.469.797 3.125 1.219 4.875 1.219 5.516 0 9.969-4.453 9.969-9.969S17.547 2 12.031 2zm5.813 14.125c-.25.703-1.438 1.344-2 1.422-.516.078-1.172.109-1.891-.125-.438-.141-1-.328-1.719-.641-3.031-1.313-5.016-4.375-5.172-4.578-.156-.203-1.234-1.641-1.234-3.125s.781-2.219 1.063-2.516c.281-.297.609-.375.813-.375.203 0 .406.002.578.009.188.008.438-.07.688.531.25.609.859 2.094.938 2.25.078.156.125.344.031.547-.094.203-.141.328-.297.5-.156.172-.313.391-.453.516-.156.141-.313.297-.141.594.172.297.781 1.281 1.672 2.078 1.156 1.031 2.125 1.344 2.422 1.5.297.156.469.125.641-.078.172-.203.75-.875.953-1.172.203-.297.406-.25.672-.141.266.109 1.703.813 2 .953.297.141.5.219.563.344.078.125.078.734-.172 1.438z" />
+        </svg>
+      </a>
 
       <InquiryModal product={selectedProduct} onClose={() => setSelectedProduct(null)} />
     </div>
